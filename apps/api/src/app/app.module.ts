@@ -22,7 +22,7 @@ export const MessageSchema = new mongoose.Schema({
     {
       provide: 'DATABASE_CONNECTION',
       useFactory: (): Promise<typeof mongoose> =>
-        mongoose.connect(process.env.mongodb0_connectionString),
+        mongoose.connect(process.env.CONNECTION_STRING),
     },
     {
       provide: 'MESSAGE_MODEL',
