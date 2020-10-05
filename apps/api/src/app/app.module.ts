@@ -3,6 +3,12 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import * as mongoose from 'mongoose';
+import { Connection } from 'mongoose';
+
+export const MessageSchema = new mongoose.Schema({
+  message: String,
+});
 
 @Module({
   imports: [
@@ -11,6 +17,18 @@ import { AppService } from './app.service';
     }),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: 'DATABASE_CONNECTION',
+      useFactory: (): Promise<typeof mongoose> =>
+        mongoose.connect(process.env.mongodb0_connectionString),
+    },
+    {
+      provide: 'MESSAGE_MODEL',
+      useFactory: (connection: Connection) => connection.model('Message', MessageSchema),
+      inject: ['DATABASE_CONNECTION'],
+    },
+  ],
 })
 export class AppModule {}
