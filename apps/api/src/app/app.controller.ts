@@ -11,6 +11,7 @@ export class AppController {
 
   @Get('hello')
   async getData(): Promise<Message[]> {
+    this.appService.createData();
     return this.appService.getData();
   }
 }
