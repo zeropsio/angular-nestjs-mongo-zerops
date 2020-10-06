@@ -22,7 +22,7 @@ export const MessageSchema = new mongoose.Schema({
     {
       provide: 'DATABASE_CONNECTION',
       useFactory: (): Promise<typeof mongoose> => {
-        console.warn('foobar', process.env.CONNECTION_STRING);
+        console.warn('DATABASE_CONNECTION', process.env.CONNECTION_STRING);
         return mongoose.connect(process.env.CONNECTION_STRING);
       }
     },
